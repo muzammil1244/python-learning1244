@@ -1,0 +1,58 @@
+# ----------------------------
+# Python cache
+# ----------------------------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# ----------------------------
+# uv virtual environment
+# ----------------------------
+.venv/
+
+# Agar tum custom naam use karo:
+venv/
+env/
+
+# ----------------------------
+# uv cache (auto generated)
+# ----------------------------
+.uv/
+.cache/
+
+# ----------------------------
+# Build / packaging
+# ----------------------------
+dist/
+build/
+*.egg-info/
+
+# ----------------------------
+# Jupyter checkpoints
+# ----------------------------
+.ipynb_checkpoints/
+
+# ----------------------------
+# Environment variables
+# ----------------------------
+.env
+.env.*
+
+# ----------------------------
+# IDE / OS junk
+# ----------------------------
+.vscode/
+.DS_Store
+Thumbs.db
+
+# ----------------------------
+# Large / raw data (AI projects)
+# ----------------------------
+data/
+datasets/
+*.csv
+*.parquet
+*.zip
+*.pt
+*.pth
