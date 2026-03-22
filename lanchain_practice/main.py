@@ -6,12 +6,13 @@ load_dotenv()
 
 api_key = os.getenv("GROQ_API")
 
-llm = ChatGroq(api_key=api_key , model="llama-3.1-8b-instant")
+llm = ChatGroq(api_key=api_key , model="llama-3.1-8b-instant" , streaming = True)
 
 promt = [
     ("system","behave like your are my teacher"),
     ("user","how to control mind")
 ]
-res = llm.invoke(promt)
+res = llm.stream(promt)
 
-print(res.content)
+for chunk in res:
+    print(chunk.content ,end="")

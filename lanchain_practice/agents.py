@@ -4,6 +4,7 @@ import os
 from langchain.tools import tool
 
 from dotenv import load_dotenv
+from langgraph.checkpoint.memory import MemorySaver
 
 
 load_dotenv()
@@ -21,16 +22,21 @@ search = GoogleSerperAPIWrapper(serper_api_key = serper_api)
 
 
 
+@tool
 def search_tool(query: str) -> str:
     """Search the internet"""
     return search.run(query)
 
-
-agent1 = create_agent(model,tools = [search_tool])
-
+agent1 = create_agent(
+    model,
+    tools=[search_tool],
+    checkpointer=MemorySaver()
+)
 res = agent1.invoke({
     "messages": [
-        {"role": "user", "content": "what is the height of Burj Khalifa"}
+        {"role": "user", "content": "and the location of that"}
     ]
-})
-print(res)
+},   {"configurable": {"thread_id": "1"}},)
+
+
+print(res["messages"][-1].content)
