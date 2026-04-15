@@ -34,7 +34,7 @@ agent1 = create_agent(
 )
 res = agent1.invoke({
     "messages": [
-        {"role": "user", "content": "and the location of that"}
+        {"role": "user", "content": "what is the name of india prime minister "}
     ]
 },   {"configurable": {"thread_id": "1"}},)
 
