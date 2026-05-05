@@ -25,8 +25,7 @@ print(res.content)
 # state management
 
 class graph_state(BaseModel):
-    user_message : str = Field(default="hi ")
-    ai_res :str = Field(default="no response from ai  ")
+    data : int
 
 
 # node management
@@ -34,34 +33,41 @@ class graph_state(BaseModel):
 
 #  1 ) for input node
 def input_node(state:graph_state) ->graph_state:
-    print("input node activate")
+    
 
-    message = input("ask something : ")
+  
 
-    state.user_message = str(message)
 
     return state
 
 #  2 ) for process
-def process_node(state:graph_state) ->graph_state:
-    print("process node activate")
+def node_one(state:graph_state) ->graph_state:
+    print("data is 5")
 
 
-    process = model.invoke(state.user_message)
 
-    state.ai_res = process.content
 
     return state
 
 
 
 #  3 ) for printing output 
-def print_node(state:graph_state) ->graph_state:  
-    print("print_node node activate")
-
-    print(state)
+def node_two(state:graph_state) ->graph_state:  
+    print("data is 3")
+   
 
     return state
+
+
+
+
+def conditional_edges(state:graph_state):
+    if state.data == 5 :
+        return "node_one"
+    else :
+        return "node_two"
+
+
 
 
 # assign node 
@@ -69,16 +75,16 @@ def print_node(state:graph_state) ->graph_state:
 graph = StateGraph(graph_state)
 
 graph.add_node("input_node",input_node)
-graph.add_node("process_node",process_node)
-graph.add_node("print_node",print_node)
+graph.add_node("node_one",node_one)
+graph.add_node("node_two",node_two)
 
 
 #  assign edges
 
 graph.add_edge(START,"input_node")
-graph.add_edge("input_node","process_node")
-graph.add_edge("process_node","print_node")
-graph.add_edge("print_node",END)
+graph.add_conditional_edges("input_node",conditional_edges)
+graph.add_edge("node_one",END)
+graph.add_edge("node_two",END)
 
 
 # ///////////////////////////////
@@ -86,7 +92,8 @@ graph.add_edge("print_node",END)
 final_graph = graph.compile()
 
 print(final_graph.get_graph())
-ob1 = graph_state(user_message="what is the name of india prime minister")
+
+ob1 = graph_state(data=3)
 final_graph.invoke(ob1)
 
 
